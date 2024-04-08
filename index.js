@@ -1,17 +1,42 @@
-const args = process.argv
+const printStudents = require('./lib/printStudents')
+const addStudent = require('./lib/addStudent')
+const studentName = process.argv[2]
 
-// console.log('browser stuff', document, window)
-
-const num1 = args[2]
-const num2 = args[3]
-
-console.log('The sum is:', +num1 + +num2)
-
+if (studentName === 'print') {
+    printStudents()
+} else {
+    addStudent(studentName)
+}
 
 
-// Get two number arguments from the user's command list (process.argv)
 
-// Add those two numbers together
 
-// console.log the sum of the two numbers
+
+
+
+
+
+
+
+// //Writefile will overwrite the files content 
+// fs.writeFile('./student.txt', studentName, (err) => {
+//     if (err) {
+//         return console.log(err)
+//     }
+// })
+
+
+
+
+// fs.readFile('./student.txt', 'utf8', (err, data) => {
+//     if (err) {
+//         return console.log(err)
+//     }
+
+//     const names = data.split('\n')
+
+//     for (let name of names) {
+//         console.log('name:', name)
+//     }
+// })
 
