@@ -1,42 +1,53 @@
-const printStudents = require('./lib/printStudents')
-const addStudent = require('./lib/addStudent')
-const studentName = process.argv[2]
 
-if (studentName === 'print') {
-    printStudents()
-} else {
-    addStudent(studentName)
+
+const data = {
+    name: 'JD',
+    age: 44
 }
 
+function handlesSomeAsyncTask() {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve()
+        }, 5000)
+    })
+}
+
+handlesSomeAsyncTask()
+    .then(() => {
+        console.log('all good')
+    })
+    .catch(() => {
+        console.log('all bad')
+    })
 
 
 
-
-
-
-
-
-
-
-// //Writefile will overwrite the files content 
-// fs.writeFile('./student.txt', studentName, (err) => {
-//     if (err) {
-//         return console.log(err)
+// class Promise {
+//     then(cb) {
+//         //Wait until some async code runs and completes before calling the callback
+//         setTimeout(() => {
+//             cb()
+//         }, 3000)
 //     }
+
+//     catch(cb) {
+
+//     }
+// }
+
+// const prom = new Promise()
+
+// prom.then(() => {
+//     console.log('callback called')
 // })
 
 
 
 
-// fs.readFile('./student.txt', 'utf8', (err, data) => {
-//     if (err) {
-//         return console.log(err)
-//     }
 
-//     const names = data.split('\n')
 
-//     for (let name of names) {
-//         console.log('name:', name)
-//     }
-// })
+
+
+
 
