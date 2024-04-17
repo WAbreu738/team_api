@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "start": "node server.js"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "jest": "^29.7.0"
+  "dependencies": {
+    "express": "^4.19.2",
+    "uuid": "^9.0.1"
   }
 }
