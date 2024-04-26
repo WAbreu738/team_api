@@ -1,60 +1,74 @@
 const { DataTypes, Model } = require('sequelize');
-const { hash, compare } = require('bcrypt');
-const client = require('../db/client');
+const client = require('../db/client')
+const { hash, compare } = require('bcrypt')
 
 class Player extends Model {
-    async validatepass(formPassword) {
-        const is_Valid = await compare(formPassword, this.password)
+  async validatePass(formPassword) {
+    const is_valid = await compare(formPassword, '')
 
-        return is_Valid
-    }
+    return is_valid
+  }
+
+  toJSON() {
+    const player = Object.assign({}, this.get())
+
+    delete player.password
+
+    return player
+  }
 }
 
 Player.init(
-    {
-        player_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true
-        },
-        email: {
-            type: DataTypes.STRING,  //VARCHAR(255)
-            allowNull: false,
-            validate: {
-                isEmail: true
-            }
-        },
-        password: {
-            type: DataTypes.STRING,  //VARCHAR(255)
-            validate: {
-                len: 6
-            },
-            allowNull: false
-        },
-        first_name: {
-            type: DataTypes.STRING,  //VARCHAR(255)
-            allowNull: false,
-        },
-        last_name: {
-            type: DataTypes.STRING,  //VARCHAR(255)
-            allowNull: false,
-        },
-        age: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        }
+  {
+    player_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true
     },
-    {
-        sequelize: client,
-        modelName: 'player',
-        hooks: {
-            async beforeCreate(user) {
-                user.password = await hash(user.password, 10)
-            }
-        },
-        timestamps: false
+    email: {
+      type: DataTypes.STRING,
+      // Does not allow a player with the same email address to create an account
+      unique: true,
+      validate: {
+        isEmail: {
+        args: true,
+        msg: 'You must provide a valid email string'
+        }
+      },
+      allowNull: false
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        len: 6
+      },
+      allowNull: false
+    },
+    first_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    last_name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    age: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     }
-);
+  },
+  {
+    sequelize: client,
+    modelName: 'player',
+    hooks: {
+      async beforeCreate(user) {
+        user.password = await hash(user.password, 10)
+      }
+    },
+    // Do not include createdAt and updatedAt fields
+    timestamps: false
+  }
+)
 
-module.exports = Player;
+module.exports = Player

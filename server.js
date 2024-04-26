@@ -1,35 +1,22 @@
+const express = require('express')
+const app = express()
+const PORT = process.env.PORT || 3333
+
+require('dotenv').config()
 const client = require('./db/client')
-const { Team, Player } = require('./models')
 
+// Import router/routes
+const api_routes = require('./routes/api_routes')
 
+// Open the JSON middleware channel to allow JSON to be sent through request.body
+app.use(express.json())
 
+// Load our routes
+app.use('/api', api_routes)
+
+// Sync the models and connect to the database
 client.sync({ force: false })
-  .then(async () => {
-
-    const julie = await Player.findByPk(1, {
-        include: Team
-    })
-    // // const julie = await Player.findByPk(2)
-
-    // console.log(julie.get({ plain: true }))
-
-    // console.log('Player has been added')
-
-    // const braves = await Team.create({
-    //     name: 'Braves',
-    //     type: 'baseball',
-    //     coach: 'Brian Snitker'
-    // })
-
-    // console.log(braves)
-
-    // const julie =  await Player.create({
-    //     email: 'julie@test.com',
-    //     password: 'password123',
-    //     first_name: 'julie',
-    //     last_name: 'Wilson',
-    //     age: 15
-    // })
-
-    // console.log(julie)
+  .then(() => {
+    // Start the Express server
+    app.listen(PORT, () => console.log('Server started on port', PORT))
   })
